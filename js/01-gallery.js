@@ -32,7 +32,7 @@ gallery.addEventListener("click", onLinkClick);
 function onLinkClick(event) {
   event.preventDefault();
 
-  if (event.target.classList.contains(".gallery__image")) {
+  if (!event.target.classList.contains("gallery__image")) {
     return;
   }
 
@@ -41,10 +41,13 @@ function onLinkClick(event) {
 `);
 
   instance.show(() => window.addEventListener("keydown", onKeyClose));
+  console.log("добавляем слушатель");
 
   function onKeyClose(event) {
     if (event.code === "Escape") {
       instance.close(() => window.removeEventListener("keydown", onKeyClose));
+      console.log("снимаем слушатель");
     }
+    console.log(event);
   }
 }
