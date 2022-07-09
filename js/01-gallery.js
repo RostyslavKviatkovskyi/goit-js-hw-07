@@ -36,18 +36,27 @@ function onLinkClick(event) {
     return;
   }
 
-  const instance = basicLightbox.create(`
-    <img src="${event.target.dataset.source}" width="800" height="600">
-`);
+  const instance = basicLightbox.create(
+    `<img width="1400" height="900" src="${event.target.dataset.source}">
+`,
+    {
+      onShow: () => {
+        document.addEventListener("keydown", onKeyClose);
+        console.log("вішаємо слухач");
+      },
+      onClose: () => {
+        document.removeEventListener("keydown", onKeyClose);
+        console.log("знімаємо слухач");
+      },
+    }
+  );
 
-  instance.show(() => window.addEventListener("keydown", onKeyClose));
-  console.log("добавляем слушатель");
+  instance.show();
 
   function onKeyClose(event) {
+    console.log(event.code);
     if (event.code === "Escape") {
-      instance.close(() => window.removeEventListener("keydown", onKeyClose));
-      console.log("снимаем слушатель");
+      instance.close();
     }
-    console.log(event);
   }
 }
